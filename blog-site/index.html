@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog site</title>
+     
+  </head>
+
+
+  <body>
+    <div id="blog-site" class="blog-site h-full max-w-screen-md mx-auto grid items-center"
+    x-data="{tabs: ['Home', 'Blogs'], 
+              activeTab: 'Home'}">
+
+      <div id="blog-site-box" class="blog-site-box flex flex-col h-full">
+       
+        <nav class="navbar p-2 shadow w-full" x-data="{open: false, toggle(){this.open = !this.open;}}">
+  
+          <div 
+            id="nav-box" 
+            class="grid justify-items-center items-center
+            grid-cols-[max-content_1fr_max-content]"
+          >
+  
+            <!-- bars btn -->
+            <div class="top-nav-bar flex gap-x-20">
+
+              <div 
+              id="menu-btn"
+              class="cursor-pointer  md:hidden" 
+              >
+              <img class="h-9 w-9" @click="toggle()" src="/bars.svg" alt="">
+            </div>
+         
+            <div id="logo" class="md:col-start-1 md:col-end-2 font-bold text-3xl">
+              BLOGSITE
+            </div>
+           
+            </div>
+          
+  
+            <!-- links-list -->
+            <div 
+              id="list-links" class="w-full 
+              row-start-2 row-end-3 col-start-1 col-end-4
+              md:row-start-1 md:row-end-2 md:col-start-2 md:col-end-3"
+            >
+              <ul 
+                class="md:px-4 pt-4 pb-7
+                text-xl text-center font-regular capitalize
+                md:!flex md:justify-between md:!h-full"
+                x-show="open" x-collapse 
+                
+              >
+                <template x-for="tab in tabs">
+                <li  class="py-1 md:py-0">
+                  <a 
+                  @click="activeTab = tab"
+                  :class="{'font-bold': activeTab === tab}"
+                   href="#" x-text="tab" class="hover:font-bold"></a>
+                </li>
+              </template>
+           
+                
+              </ul>
+            </div>
+            
+            
+  
+          </div>
+  
+        </nav>
+
+        <!--form home page-->
+        <div x-show="activeTab === 'Home'" class="home-page">
+          Home
+        </div>
+
+       <!--for blogs page-->
+        <div 
+    x-data="loadIdentities()"
+   
+        x-show="activeTab === 'Blogs'" 
+        class="blogs-page pt-4 px-8">
+          <div class="blogs-page-top">
+            <div class="blogs-page-title text-2xl font-semibold pt-3">Blogs</div>
+            <div class="blogs-page-search-div mt-4 mb-7 relative">
+              <input class="blogs-page-search-bar p-2 ps-3 rounded-lg w-full" type="search" placeholder="search for blogs..">
+              <img class="absolute bottom-3 left-60" src="/search.svg" alt="">
+              
+            </div>
+          </div>
+      
+          <template x-if="gistsLength === 0">No Blogs</template>
+          <template x-for="gist in allGists" :key="gist.id">
+           
+
+
+                <div x-data="$store.capitalizeFirstLetter.capitalize(gist.attributes.title, gist.id)" class="blog my-2">
+                  
+                  <template x-for="category in allCategories" :key="category.id">
+                    <div x-show="gist.id===category.id" x-text="category.attributes.name" class="blog-categ text-right italic"></div>
+                  </template>
+
+                  <!-- <img class="blog-img w-full h-40 rounded-md" src="/img-10.jpg" alt=""> -->
+                    <template x-for="capTitle in $store.capitalizeFirstLetter.capTitleArr" :key="capTitle.id">
+                      <div x-show="capTitle.id===gist.id"  x-show="gist.id===capTitle.id"  x-text="capTitle.str2" class="blog-title font-bold text-2xl pt-1"></div>
+                    </template>
+
+             
+                  
+                  <div>
+                    By 
+                    <template class="inline" x-for="author in allAuthors" :key="author.id">
+                      <div x-show="gist.id===author.id" x-text="author.attributes.name" class="blog-owner italic inline"></div>
+                   </template>
+                     </div>
+                  
+
+                  <div><div x-html="gist.attributes.content.slice(0, 100)" class="blog-description text-slate-400"> </div>...</div>
+                </div>
+
+              
+            
+            
+            
+           
+          </template>
+
+          <!-- <div class="blog">
+            <div class="blog-categ text-right">fashion</div>
+            <img class="blog-img w-full h-40 rounded-md" src="/img-10.jpg" alt="">
+            <div class="blog-title font-bold text-2xl pt-1">Fashion At Another Level</div>
+            <div class="blog-owner italic">By John</div>
+            <div class="blog-description text-slate-400">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam similique </div>
+          </div>
+
+
+          <div class="blog">
+            <div class="blog-categ text-right">fashion</div>
+            <img class="blog-img w-full h-40 rounded-md" src="/img-10.jpg" alt="">
+            <div class="blog-title font-bold text-2xl pt-1">Fashion At Another Level</div>
+            <div class="blog-owner italic">By John</div>
+            <div class="blog-description text-slate-400">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam similique </div>
+          </div>
+          <div class="blog">
+            <div class="blog-categ text-right">fashion</div>
+            <img class="blog-img w-full h-40 rounded-md" src="/img-10.jpg" alt="">
+            <div class="blog-title font-bold text-2xl pt-1">Fashion At Another Level</div>
+            <div class="blog-owner italic">By John</div>
+            <div class="blog-description text-slate-400">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam similique </div>
+          </div>
+          <div class="blog">
+            <div class="blog-categ text-right">fashion</div>
+            <img class="blog-img w-full h-40 rounded-md" src="/img-10.jpg" alt="">
+            <div class="blog-title font-bold text-2xl pt-1">Fashion At Another Level</div>
+            <div class="blog-owner italic">By John</div>
+            <div class="blog-description text-slate-400">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam similique </div>
+          </div>
+          <div class="blog">
+            <div class="blog-categ text-right">fashion</div>
+            <img class="blog-img w-full h-40 rounded-md" src="/img-10.jpg" alt="">
+            <div class="blog-title font-bold text-2xl pt-1">Fashion At Another Level</div>
+            <div class="blog-owner italic">By John</div>
+            <div class="blog-description text-slate-400">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam similique </div>
+          </div>
+          <div class="blog">
+            <div class="blog-categ text-right">fashion</div>
+            <img class="blog-img w-full h-40 rounded-md" src="/img-10.jpg" alt="">
+            <div class="blog-title font-bold text-2xl pt-1">Fashion At Another Level</div>
+            <div class="blog-owner italic">By John</div>
+            <div class="blog-description text-slate-400">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam similique </div>
+          </div> -->
+        </div>
+
+
+        
+  
+      </div>
+  
+    </div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
