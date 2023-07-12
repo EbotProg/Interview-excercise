@@ -14,7 +14,7 @@
     x-data="{tabs: ['Home', 'Blogs'], 
               activeTab: 'Home'}">
 
-      <div id="blog-site-box" class="blog-site-box flex flex-col h-full">
+      <div id="blog-site-box" class="blog-site-box">
        
         <nav class="navbar p-2 shadow w-full" x-data="{open: false, toggle(){this.open = !this.open;}}">
   
@@ -34,8 +34,13 @@
               <img class="h-9 w-9" @click="toggle()" src="/bars.svg" alt="">
             </div>
          
-            <div id="logo" class="md:col-start-1 md:col-end-2 font-bold text-3xl">
-              BLOGSITE
+            <div  id="logo" class="md:col-start-1 md:col-end-2 font-bold text-3xl logo flex">
+              <span class="text-blue-500">F</span>
+              <span class="text-red-500">I</span>
+              <span class="text-yellow-500">G</span>
+              <span class="text-green-500">O</span>
+              <span class="text-blue-500">Z</span>
+              <span class="text-red-500">O</span>
             </div>
            
             </div>
@@ -83,13 +88,13 @@
     x-data="loadIdentities()"
    
         x-show="activeTab === 'Blogs'" 
-        class="blogs-page pt-4 px-8">
+        class="blogs-page pt-4 px-6">
           <div class="blogs-page-top">
             <div class="blogs-page-title text-2xl font-semibold pt-3">Blogs</div>
             <div class="blogs-page-search-div mt-4 mb-7 relative">
               <input class="blogs-page-search-bar p-2 ps-3 rounded-lg w-full" type="search" placeholder="search for blogs..">
               <img class="absolute bottom-3 left-60" src="/search.svg" alt="">
-              
+
             </div>
           </div>
       
@@ -98,7 +103,7 @@
            
 
 
-                <div x-data="$store.capitalizeFirstLetter.capitalize(gist.attributes.title, gist.id)" class="blog my-2">
+                <div x-data="$store.capitalizeFirstLetter.capitalize(gist.attributes.title, gist.id)" class="blog my-2 hover:bg-slate-100">
                   
                   <template x-for="category in allCategories" :key="category.id">
                     <div x-show="gist.id===category.id" x-text="category.attributes.name" class="blog-categ text-right italic"></div>
@@ -114,8 +119,12 @@
                   <div>
                     By 
                     <template class="inline" x-for="author in allAuthors" :key="author.id">
-                      <div x-show="gist.id===author.id" x-text="author.attributes.name" class="blog-owner italic inline"></div>
+                      <div class="inline">
+                        <div x-show="gist.id === author.id" x-text="author.attributes.name" class="blog-owner italic inline"></div>
+                      </div>
                    </template>
+                   <div x-show="authorIdsArr.find((authorId, index, arr)=>gist.id===authorId) === undefined"  class="blog-owner italic inline">Unknown blogger</div>
+
                      </div>
                   
 

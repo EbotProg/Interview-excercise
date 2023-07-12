@@ -40,6 +40,7 @@ body *, body *::after, body *::before{
   background-color: red;
 } */
 
+
 .blogs-page{
   background-color: var(--bg-blog-page);
   height: 100%;
@@ -66,3 +67,9 @@ body *, body *::after, body *::before{
 .blog-title{
   line-height: 1.8rem;
 }
+
+.blogs-page-search-bar:focus{
+  border: 1px solid blue;
+  border-color: blue;
+}
+
