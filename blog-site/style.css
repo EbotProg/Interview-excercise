@@ -73,3 +73,11 @@ body *, body *::after, body *::before{
   border-color: blue;
 }
 
+.blog-description::after{
+  display: inline;
+  content: ' ...';
+}
+
+.blog-cont{
+  display: inline;
+}

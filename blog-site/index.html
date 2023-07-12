@@ -102,34 +102,40 @@
           <template x-for="gist in allGists" :key="gist.id">
            
 
+                <a href="./blog.html">
 
-                <div x-data="$store.capitalizeFirstLetter.capitalize(gist.attributes.title, gist.id)" class="blog my-2 hover:bg-slate-100">
+
+                  <div x-data="$store.capitalizeFirstLetter.capitalize(gist.attributes.title, gist.id)" class="blog p-3 hover:bg-slate-100">
                   
-                  <template x-for="category in allCategories" :key="category.id">
-                    <div x-show="gist.id===category.id" x-text="category.attributes.name" class="blog-categ text-right italic"></div>
-                  </template>
-
-                  <!-- <img class="blog-img w-full h-40 rounded-md" src="/img-10.jpg" alt=""> -->
-                    <template x-for="capTitle in $store.capitalizeFirstLetter.capTitleArr" :key="capTitle.id">
-                      <div x-show="capTitle.id===gist.id"  x-show="gist.id===capTitle.id"  x-text="capTitle.str2" class="blog-title font-bold text-2xl pt-1"></div>
+                    <template x-for="category in allCategories" :key="category.id">
+                      <div x-show="gist.id===category.id" x-text="category.attributes.name" class="blog-categ text-right italic"></div>
                     </template>
-
-             
-                  
-                  <div>
-                    By 
-                    <template class="inline" x-for="author in allAuthors" :key="author.id">
-                      <div class="inline">
-                        <div x-show="gist.id === author.id" x-text="author.attributes.name" class="blog-owner italic inline"></div>
-                      </div>
-                   </template>
-                   <div x-show="authorIdsArr.find((authorId, index, arr)=>gist.id===authorId) === undefined"  class="blog-owner italic inline">Unknown blogger</div>
-
-                     </div>
-                  
-
-                  <div><div x-html="gist.attributes.content.slice(0, 100)" class="blog-description text-slate-400"> </div>...</div>
-                </div>
+  
+                    <!-- <img class="blog-img w-full h-40 rounded-md" src="/img-10.jpg" alt=""> -->
+                      <template x-for="capTitle in $store.capitalizeFirstLetter.capTitleArr" :key="capTitle.id">
+                        <div x-show="capTitle.id===gist.id"  x-show="gist.id===capTitle.id"  x-text="capTitle.str2" class="blog-title font-bold text-2xl pt-1"></div>
+                      </template>
+  
+               
+                    
+                    <div>
+                      By 
+                      <template class="inline" x-for="author in allAuthors" :key="author.id">
+                        <div class="inline">
+                          <div x-show="gist.id === author.id" x-text="author.attributes.name" class="blog-owner italic inline"></div>
+                        </div>
+                     </template>
+                     <div x-show="authorIdsArr.find((authorId, index, arr)=>gist.id===authorId) === undefined"  class="blog-owner italic inline">Unknown blogger</div>
+  
+                       </div>
+                    
+  
+                    <!-- <div><div x-html="gist.attributes.content.slice(0, 100)" class="blog-description text-slate-400"> </div>...</div> -->
+                    <div x-show="gist.attributes.excerpt!== null" x-html="gist.attributes.excerpt.slice(0, 100)" class="blog-description text-slate-400"> </div>
+                    <div x-show="gist.attributes.excerpt===null" x-html="gist.attributes.content.slice(0, 100)" class="blog-description blog-cont text-slate-400"> </div>
+                  </div>
+                </a>
+                
 
               
             
